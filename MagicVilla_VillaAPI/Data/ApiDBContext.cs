@@ -1,4 +1,5 @@
 ﻿using MagicVilla_VillaAPI.Models;
+using MagicVilla_VillaAPI.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace MagicVilla_VillaAPI.Data
@@ -11,6 +12,7 @@ namespace MagicVilla_VillaAPI.Data
         }
 
         public DbSet<VillaAPI> VillaAPIs {  get; set; }
+        public DbSet<VillaNumber> VillaNumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,6 +72,21 @@ namespace MagicVilla_VillaAPI.Data
                   Sqft = 1100,
                   Amenity = ""
               }
+                );
+
+            modelBuilder.Entity<VillaNumber>().HasData(
+                new VillaNumber
+                {
+                    VillaNo=1101,
+                    SpecialDetails="For Army Veterans",
+                    CreatedDate=DateOnly.FromDateTime( DateTime.Now ),
+                },
+                new VillaNumber
+                {
+                VillaNo = 1110,
+                    SpecialDetails = "For Couples",
+                    CreatedDate = DateOnly.FromDateTime(DateTime.Now),
+                }
                 );
         }
     }
