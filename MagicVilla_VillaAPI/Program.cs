@@ -1,5 +1,8 @@
 using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Logging;
+using MagicVilla_VillaAPI.Mapping;
+using MagicVilla_VillaAPI.Repository;
+using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -31,12 +34,25 @@ builder.Host.UseSerilog();      //To tell that default logging system won't be u
 builder.Services.AddSingleton<ILogging, Logging>();
 #endregion
 
+#region SQL Connection
+
 builder.Services.AddDbContext<ApiDBContext>(option => {
     option.UseSqlServer(builder.Configuration.GetConnectionString("defaultSQLConnection"));
     });
 
+#endregion
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+#region Automapper Service Addition
+
+builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+#endregion
+
+builder.Services.AddScoped<IVillaRepository,VillaRepository>();
+builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 var app = builder.Build();
 
